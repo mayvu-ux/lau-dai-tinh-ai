@@ -42,7 +42,7 @@ body::before {
 }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-.site { max-width: 60rem; margin: 0 auto; padding-block: 1.25rem 4rem; position: relative; z-index: 1; }
+.site { max-width: 60rem; margin: 0 auto; padding-block: 1.25rem 7rem; position: relative; z-index: 1; }
 
 /* ---------- Nền: ảnh tinh vân + sao rơi ---------- */
 #galaxy { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; background: var(--night); transition: opacity .6s ease; }
@@ -233,7 +233,7 @@ body.reading .veil { background: rgba(3, 8, 23, 0.55); }
 .csheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 46; max-height: 78vh; display: flex; flex-direction: column; text-shadow: none;
   background: #070d22; border-top: 1px solid var(--line); border-radius: 14px 14px 0 0; box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5); }
 .csheet-in { width: 100%; max-width: 40rem; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; min-height: 0;
-  padding: 1rem max(16px, env(safe-area-inset-right, 0px)) calc(1rem + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+  padding: 1rem max(16px, env(safe-area-inset-right, 0px)) calc(4.75rem + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
 .csheet-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
 .csheet-top h3 { margin: 0; font-size: 0.95rem; font-weight: 500; color: var(--moon); }
 .csheet-x { background: none; border: 0; color: var(--ink-soft); font: inherit; font-size: 0.9rem; cursor: pointer; padding: 0.3rem 0; }
@@ -250,7 +250,8 @@ body.reading .veil { background: rgba(3, 8, 23, 0.55); }
 .cform input, .cform textarea { font: inherit; font-size: 1rem; color: var(--ink); background: rgba(20, 34, 70, 0.6); border: 1px solid var(--line); border-radius: 6px; padding: 0.55rem 0.7rem; width: 100%; box-sizing: border-box; }
 .cform textarea { min-height: 4.5rem; resize: vertical; line-height: 1.5; }
 .cform .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
-.crow { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.crow { display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; }
+.crow .btn { order: -1; flex: none; }
 .cstatus { font-size: 0.78rem; color: var(--ink-faint); min-width: 0; }
 .cstatus.warn { color: #ffd59a; }
 .btn:disabled { opacity: 0.5; cursor: default; }
