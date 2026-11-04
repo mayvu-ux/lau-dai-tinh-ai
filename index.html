@@ -221,6 +221,42 @@ body.reading .veil { background: rgba(3, 8, 23, 0.55); }
 .ed .btn:disabled, .ed-bar .btn:disabled { opacity: 0.45; cursor: default; }
 .ed-note { font-size: 0.85rem; line-height: 1.6; padding: 0.75rem 0.9rem; border: 1px solid var(--line); border-radius: 6px; background: rgba(20, 34, 70, 0.5); }
 
+
+/* ---------- Bình luận theo đoạn ---------- */
+.cmt-hint { text-align: center; font-size: 0.8rem; font-style: italic; color: var(--ink-faint); margin: -1rem 0 2rem; }
+.prose p[data-p] { cursor: pointer; border-radius: 4px; transition: background .2s; }
+.prose p[data-p]:hover, .prose p[data-p].on { background: rgba(143, 180, 255, 0.07); }
+.cbadge { display: inline-flex; align-items: center; gap: 0.25rem; margin-left: 0.4rem; vertical-align: 0.1em; font-family: var(--f-ui); font-size: 0.72rem; line-height: 1;
+  color: var(--accent); border: 1px solid rgba(143, 180, 255, 0.45); border-radius: 999px; padding: 0.18rem 0.45rem 0.2rem; background: rgba(9, 18, 44, 0.6); text-indent: 0; }
+.cbadge svg { width: 0.75rem; height: 0.75rem; fill: currentColor; }
+.csheet-bg { position: fixed; inset: 0; z-index: 45; background: rgba(2, 5, 14, 0.55); }
+.csheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 46; max-height: 78vh; display: flex; flex-direction: column; text-shadow: none;
+  background: #070d22; border-top: 1px solid var(--line); border-radius: 14px 14px 0 0; box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5); }
+.csheet-in { width: 100%; max-width: 40rem; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; min-height: 0;
+  padding: 1rem max(16px, env(safe-area-inset-right, 0px)) calc(1rem + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.csheet-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.csheet-top h3 { margin: 0; font-size: 0.95rem; font-weight: 500; color: var(--moon); }
+.csheet-x { background: none; border: 0; color: var(--ink-soft); font: inherit; font-size: 0.9rem; cursor: pointer; padding: 0.3rem 0; }
+.cquote { margin: 0.75rem 0 0; padding-left: 0.75rem; border-left: 2px solid var(--accent); font-size: 0.85rem; line-height: 1.6; color: var(--ink-soft);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.clist { list-style: none; margin: 0.9rem 0 0; padding: 0; overflow-y: auto; min-height: 0; flex: 1; display: grid; gap: 0.9rem; align-content: start; }
+.clist li { display: grid; gap: 0.2rem; }
+.cmeta { display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.78rem; color: var(--ink-faint); }
+.cmeta b { color: var(--accent); font-weight: 500; font-size: 0.85rem; }
+.ctext { font-size: 0.92rem; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+.cdel { margin-left: auto; background: none; border: 0; color: #ff9a9a; font: inherit; font-size: 0.75rem; cursor: pointer; }
+.cempty { color: var(--ink-faint); font-size: 0.85rem; font-style: italic; }
+.cform { display: grid; gap: 0.5rem; margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+.cform input, .cform textarea { font: inherit; font-size: 1rem; color: var(--ink); background: rgba(20, 34, 70, 0.6); border: 1px solid var(--line); border-radius: 6px; padding: 0.55rem 0.7rem; width: 100%; box-sizing: border-box; }
+.cform textarea { min-height: 4.5rem; resize: vertical; line-height: 1.5; }
+.cform .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.crow { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.cstatus { font-size: 0.78rem; color: var(--ink-faint); min-width: 0; }
+.cstatus.warn { color: #ffd59a; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.admin-box { display: grid; gap: 0.8rem; max-width: 26rem; margin: 2rem auto; font-size: 0.9rem; }
+.admin-box input { font: inherit; font-size: 1rem; color: var(--ink); background: rgba(20, 34, 70, 0.6); border: 1px solid var(--line); border-radius: 6px; padding: 0.6rem 0.7rem; }
+
 @media (max-width: 680px) {
   .banner .art { aspect-ratio: 4 / 3; }
   .feature { position: static; transform: none; width: auto; border-top: 0; }
@@ -389,10 +425,14 @@ function story(s) {
   mountAll();
 }
 
+let PARAS = [];
 function render(text) {
+  PARAS = [];
   return text.trim().split(/\n\s*\n/).map(b => {
     const t = b.trim();
-    return t === "---" ? "<hr>" : `<p>${esc(t).replace(/\n/g, "<br>")}</p>`;
+    if (t === "---") return "<hr>";
+    PARAS.push(t);
+    return `<p data-p="${PARAS.length - 1}">${esc(t).replace(/\n/g, "<br>")}</p>`;
   }).join("");
 }
 
@@ -426,6 +466,7 @@ function chapter(s, i) {
         <div class="ch-no">${esc(chLabel(c))}</div>
         <h1>${esc(c.title || "Chưa đặt tên")}</h1>
       </header>
+      ${c.text.trim() ? `<p class="cmt-hint">Chạm vào một đoạn để đọc và viết bình luận</p>` : ""}
       <article class="prose">${c.text.trim() ? render(c.text) : `<p class="pending">Chương này sẽ sớm được đăng.</p>`}</article>
       <nav class="pager" aria-label="Chương trước và sau">
         ${prev ? `<a href="#${s.id}-${chSlug(prev)}"><small>Chương trước</small><span>${esc(chName(prev))}</span></a>` : `<span class="gap"></span>`}
@@ -434,6 +475,7 @@ function chapter(s, i) {
     </div>`;
   document.getElementById("size-down").onclick = () => bump(-0.0625);
   document.getElementById("size-up").onclick = () => bump(0.0625);
+  if (c.text.trim()) setupComments(s, c);
 }
 
 function bump(d) {
@@ -444,6 +486,8 @@ function bump(d) {
 
 function route() {
   const h = location.hash.slice(1);
+  closeSheet();
+  if (h === "quan-ly") { adminPage(); return; }
   let nav = "home";
   if (CATS[h] && SHOW_CATS) { nav = h; category(h); }
   else {
@@ -1021,6 +1065,135 @@ const ORBIT = 14;
   next = performance.now() + 1500; requestAnimationFrame(loop);
 })();
 
+
+
+/* ---------- Bình luận theo đoạn ---------- */
+const API = "/api/comments";
+const ICON = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H6.5L3 14.2V11.5H2a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1z"/></svg>`;
+const snip = t => t.replace(/\s+/g, " ").trim().slice(0, 60);
+let CM = { story: null, ch: null, list: [], ok: false, open: -1 };
+const adminKey = () => store("ldta-admin") || "";
+const when = ms => { const d = new Date(ms), p = n => String(n).padStart(2, "0"); return `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`; };
+
+function paraOf(cm) {
+  const i = PARAS.findIndex(t => snip(t) === cm.snip);
+  return i >= 0 ? i : (cm.p < PARAS.length ? cm.p : -1);
+}
+function paintBadges() {
+  const counts = {};
+  CM.list.forEach(cm => { const i = paraOf(cm); if (i >= 0) counts[i] = (counts[i] || 0) + 1; });
+  document.querySelectorAll(".prose p[data-p]").forEach(el => {
+    const n = counts[el.dataset.p] || 0;
+    let b = el.querySelector(".cbadge");
+    if (!n) { if (b) b.remove(); return; }
+    if (!b) { b = document.createElement("span"); b.className = "cbadge"; el.appendChild(b); }
+    b.innerHTML = ICON + n;
+    b.setAttribute("aria-label", n + " bình luận");
+  });
+}
+function setupComments(s, c) {
+  CM = { story: s.id, ch: c.no, list: [], ok: false, open: -1 };
+  const art = document.querySelector(".prose");
+  art.addEventListener("click", e => {
+    if (window.getSelection && String(window.getSelection()).length > 2) return;
+    const p = e.target.closest("p[data-p]"); if (p) openSheet(+p.dataset.p);
+  });
+  const want = CM.story + "/" + CM.ch;
+  fetch(`${API}?story=${encodeURIComponent(s.id)}&ch=${encodeURIComponent(c.no)}`)
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => { if (CM.story + "/" + CM.ch !== want) return; CM.list = d.comments || []; CM.ok = true; paintBadges(); if (CM.open >= 0) renderSheet(); })
+    .catch(() => {});
+}
+function closeSheet() {
+  document.querySelectorAll(".csheet, .csheet-bg").forEach(x => x.remove());
+  document.querySelectorAll(".prose p.on").forEach(x => x.classList.remove("on"));
+  if (CM) CM.open = -1;
+}
+function openSheet(i) {
+  closeSheet(); CM.open = i;
+  const bg = document.createElement("div"); bg.className = "csheet-bg"; bg.onclick = closeSheet;
+  const sh = document.createElement("div"); sh.className = "csheet"; sh.setAttribute("role", "dialog"); sh.setAttribute("aria-label", "Bình luận đoạn");
+  document.body.append(bg, sh);
+  const p = document.querySelector(`.prose p[data-p="${i}"]`); if (p) p.classList.add("on");
+  renderSheet();
+}
+function renderSheet(status, warn) {
+  const sh = document.querySelector(".csheet"); if (!sh) return;
+  const i = CM.open, mine = CM.list.filter(cm => paraOf(cm) === i), admin = !!adminKey();
+  const prevName = sh.querySelector("#c-name") ? sh.querySelector("#c-name").value : (store("ldta-name") || "");
+  const prevText = sh.querySelector("#c-text") ? sh.querySelector("#c-text").value : "";
+  sh.innerHTML = `<div class="csheet-in">
+    <div class="csheet-top"><h3>Bình luận${mine.length ? " · " + mine.length : ""}</h3><button type="button" class="csheet-x" data-x>Đóng</button></div>
+    <p class="cquote">${esc(PARAS[i] || "")}</p>
+    <ul class="clist">${mine.length ? mine.map(cm => `<li>
+      <div class="cmeta"><b>${esc(cm.name)}</b><span>${when(cm.at)}</span>${admin ? `<button type="button" class="cdel" data-del="${esc(cm.id)}">Xóa</button>` : ""}</div>
+      <div class="ctext">${esc(cm.text)}</div></li>`).join("")
+      : `<li class="cempty">${CM.ok ? "Chưa có bình luận nào cho đoạn này." : "Đang tải bình luận…"}</li>`}</ul>
+    <form class="cform" novalidate>
+      <input id="c-name" type="text" maxlength="40" placeholder="Tên của bạn" autocomplete="nickname">
+      <textarea id="c-text" maxlength="1500" placeholder="Viết bình luận cho đoạn này"></textarea>
+      <input class="hp" id="c-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="crow"><span class="cstatus ${warn ? "warn" : ""}" id="c-status">${esc(status || "")}</span><button type="submit" class="btn primary" id="c-send">Gửi</button></div>
+    </form></div>`;
+  sh.querySelector("#c-name").value = prevName;
+  sh.querySelector("#c-text").value = prevText;
+  sh.querySelector("[data-x]").onclick = closeSheet;
+  sh.querySelector(".cform").onsubmit = e => { e.preventDefault(); sendComment(); };
+  sh.querySelectorAll("[data-del]").forEach(b => b.onclick = () => delComment(b.dataset.del, b));
+  const list = sh.querySelector(".clist"); list.scrollTop = list.scrollHeight;
+}
+async function sendComment() {
+  const sh = document.querySelector(".csheet"); if (!sh) return;
+  const name = sh.querySelector("#c-name").value.trim(), text = sh.querySelector("#c-text").value.trim();
+  if (!name || !text) { renderSheet("Bạn nhập tên và nội dung bình luận nhé.", true); return; }
+  store("ldta-name", name);
+  const btn = sh.querySelector("#c-send"); btn.disabled = true; sh.querySelector("#c-status").textContent = "Đang gửi…";
+  const i = CM.open;
+  try {
+    const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ story: CM.story, ch: CM.ch, p: i, snip: snip(PARAS[i] || ""), name, text, hp: sh.querySelector("#c-hp").value }) });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(d.error || "fail");
+    if (d.comment) CM.list.push(d.comment);
+    sh.querySelector("#c-text").value = "";
+    paintBadges(); renderSheet("Đã gửi.");
+  } catch (err) {
+    renderSheet(err.message === "slow" ? "Bạn gửi hơi nhanh, đợi vài giây rồi thử lại nhé." : "Chưa gửi được. Bạn thử lại sau ít phút.", true);
+  }
+}
+async function delComment(id, btn) {
+  if (btn.dataset.sure !== "1") { btn.dataset.sure = "1"; btn.textContent = "Bấm lần nữa để xóa"; return; }
+  try {
+    const r = await fetch(API, { method: "DELETE", headers: { "content-type": "application/json", "x-admin-key": adminKey() },
+      body: JSON.stringify({ story: CM.story, ch: CM.ch, id }) });
+    if (!r.ok) throw new Error(r.status === 403 ? "key" : "fail");
+    CM.list = CM.list.filter(cm => cm.id !== id); paintBadges(); renderSheet("Đã xóa.");
+  } catch (err) { renderSheet(err.message === "key" ? "Mã quản lý không đúng. Vào trang #quan-ly để nhập lại." : "Chưa xóa được.", true); }
+}
+function adminPage() {
+  document.title = "Quản lý bình luận · lâu đài tình ái";
+  document.body.classList.add("inner"); document.body.classList.remove("reading");
+  const has = !!adminKey();
+  app.innerHTML = `<div class="admin-box">
+    <span class="label">Quản lý bình luận</span>
+    <p style="margin:0">${has ? "Máy này đang bật quyền xóa bình luận." : "Nhập mã quản lý để bật nút xóa bình luận trên máy này."}</p>
+    <input type="password" id="adm-key" placeholder="Mã quản lý" autocomplete="off">
+    <div class="actions"><button type="button" class="btn primary" id="adm-save">Lưu mã</button>${has ? `<button type="button" class="btn" id="adm-off">Tắt quyền xóa</button>` : ""}<a class="btn" href="#">Về trang chủ</a></div>
+    <p class="cstatus" id="adm-st"></p></div>`;
+  const st = document.getElementById("adm-st");
+  document.getElementById("adm-save").onclick = async () => {
+    const k = document.getElementById("adm-key").value.trim(); if (!k) return;
+    st.textContent = "Đang kiểm tra…";
+    try {
+      const d = await (await fetch(API + "?check=1", { headers: { "x-admin-key": k } })).json();
+      if (d.admin) { store("ldta-admin", k); st.textContent = "Đã bật. Mở chương bất kỳ, bình luận sẽ có nút Xóa."; }
+      else st.textContent = "Mã không đúng.";
+    } catch (e) { st.textContent = "Chưa kiểm tra được. Bạn thử lại sau."; }
+  };
+  const off = document.getElementById("adm-off");
+  if (off) off.onclick = () => { try { localStorage.removeItem("ldta-admin"); } catch (e) {} adminPage(); };
+}
+addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
 
 applySize();
 window.addEventListener("hashchange", route);
