@@ -39,6 +39,19 @@
         {"no": "25.2", "title": "Trong tầm mắt (2)"},
         {"no": "26", "title": "Đừng nhìn em như thế"}
       ]
+    },
+    {
+      "id": "mien-mong-mo",
+      "title": "Miền Mộng Mơ",
+      "status": "dang-ra",
+      "tags": ["Fanfiction"],
+      "blurb": "",
+      "cover": "img/mien-mong-mo-bia.jpg",
+      "theme": "mong-mo",
+      "chapters": [
+        {"no": "1", "title": "Cuối đông"},
+        {"no": "2", "title": "Hẻm dốc"}
+      ]
     }
   ]
 }
