@@ -51,7 +51,8 @@
       "theme": "mong-mo",
       "chapters": [
         {"no": "1", "title": "Cuối đông"},
-        {"no": "2", "title": "Hẻm dốc"}
+        {"no": "2", "title": "Hẻm dốc"},
+ 	{"no": "3", "title": "Khói than"}
       ]
     }
   ]
