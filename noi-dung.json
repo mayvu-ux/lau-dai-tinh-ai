@@ -46,13 +46,14 @@
       "title": "Miền Mộng Mơ",
       "status": "dang-ra",
       "tags": ["Fanfiction"],
-      "blurb": "",
+      "blurb": "Màn hình TV vẫn sáng nhưng Yoonsik đã chẳng còn nhớ nổi nội dung của bộ phim là gì. Joo Taeseon ngồi ngay bên cạnh, gần đến mức chỉ cần nghiêng người là có thể chạm vào. Vậy mà khoảng cách ấy vẫn khiến em cảm thấy bất an.\nHắn nhận ra sự im lặng khác thường, khẽ nghiêng đầu nhìn em.\n“Yoonsik, em đang lo sợ điều gì?”\nEm nhìn hắn một lúc lâu.\n“Joo Taeseon.”\nGiọng em run khẽ.\n“Em sợ mình sẽ phát điên vì anh.”",
       "cover": "img/mien-mong-mo-bia.jpg",
       "theme": "mong-mo",
       "chapters": [
         {"no": "1", "title": "Cuối đông"},
         {"no": "2", "title": "Hẻm dốc"},
- 	{"no": "3", "title": "Khói than"}
+         {"no": "3", "title": "Khói than"},
+        {"no": "4", "title": "Hoa mộc lan"}
       ]
     }
   ]
