@@ -550,9 +550,9 @@ function render(text) {
   PARAS = [];
   return text.trim().split(/\n\s*\n/).map(b => {
     const t = b.trim();
-    if (t === "---") return "<hr>";
-    PARAS.push(t);
-    return `<p data-p="${PARAS.length - 1}">${esc(t).replace(/\n/g, "<br>")}</p>`;
+    if (t === "---" || t === "*" || t === "***" || t === "* * *") return "<hr>";
+    PARAS.push(t.replace(/\*([^*\n]+?)\*/g, "$1"));
+    return `<p data-p="${PARAS.length - 1}">${esc(t).replace(/\*([^*\n]+?)\*/g, "<em>$1</em>").replace(/\n/g, "<br>")}</p>`;
   }).join("");
 }
 
