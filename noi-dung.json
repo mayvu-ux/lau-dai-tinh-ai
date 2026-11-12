@@ -55,7 +55,13 @@
          {"no": "3", "title": "Khói than"},
         {"no": "4", "title": "Hoa mộc lan"},
         {"no": "5", "title": "Người được chọn"},
-        {"no": "6", "title": "Bậc thang thứ tư"}
+        {"no": "6", "title": "Bậc thang thứ tư"},
+        {"no": "7", "title": "Cháo trắng"},
+        {"no": "8", "title": "Người quen"},
+        {"no": "9", "title": "Phương án"},
+        {"no": "10", "title": "Chiếc cúc áo"},
+        {"no": "11", "title": "Mỏ neo"},
+        {"no": "12", "title": "Người quen cũ"}
       ]
     }
   ]
